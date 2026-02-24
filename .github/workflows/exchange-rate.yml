@@ -2,8 +2,10 @@ name: Fetch Exchange Rates
 
 on:
   schedule:
-      # testing setiap 5 menit
-    - cron: '*/5 * * * *'
+    # Setiap hari jam 05:00 WIB (22:00 UTC)
+    - cron: '0 22 * * *'
+    # testing setiap 5 menit
+    # - cron: '*/5 * * * *'
   workflow_dispatch:
 
 jobs:
@@ -16,7 +18,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
       - name: Fetch exchange rates
         run: |
