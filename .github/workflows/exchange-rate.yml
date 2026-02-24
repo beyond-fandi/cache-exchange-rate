@@ -1,0 +1,39 @@
+name: Fetch Exchange Rates
+
+on:
+  # Uji coba: jalan setiap 2 menit
+  schedule:
+    - cron: '*/2 * * * *'
+  workflow_dispatch:
+
+jobs:
+  update-rates:
+    runs-on: ubuntu-latest
+
+    # Wajib agar bisa commit & push
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Fetch exchange rates
+        run: |
+          curl -s "https://data.fixer.io/api/latest?access_key=${{ secrets.FIXER_API_KEY }}" \
+            -o rates.json
+
+      - name: Commit and push changes
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+
+          git add rates.json
+
+          # Commit hanya jika ada perubahan
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "chore: update exchange rates"
+            git push
+          fi
