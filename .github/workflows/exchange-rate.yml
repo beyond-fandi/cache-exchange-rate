@@ -2,8 +2,8 @@ name: Fetch Exchange Rates
 
 on:
   schedule:
-    # Setiap hari jam 17:15 WIB (10:15 UTC)
-    - cron: '15 10 * * *'
+      # testing setiap 5 menit
+    - cron: '*/5 * * * *'
   workflow_dispatch:
 
 jobs:
